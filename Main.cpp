@@ -30,29 +30,27 @@ enum Color {
 };
 
 // Fill list above with RGB values
-static const struct {
-	float r, g, b;
-} colors[] = {
-	{1, 0, 0},			// red
+static const struct {float r, g, b;} colors[] = {
+	{1, 0, 0},		// red
 	{0.5f, 0, 0},		// dark red
 
-	{0, 0, 1},			// blue
+	{0, 0, 1},		// blue
 	{0, 0, 0.5f},		// dark blue
 
 	{0, 0.5f, 0},		// dark green
 
-	{0, 1, 1},			// cyan
+	{0, 1, 1},		// cyan
 	{0, 0.5f, 0.5f},	// dark  cyan
 
-	{1, 1, 0},			// yellow
+	{1, 1, 0},		// yellow
 	{0.5f, 0.5f, 0},	// dark yellow
 
-	{1, 1, 1},			// White
-	{0, 0, 0},          // black
+	{1, 1, 1},		// White
+	{0, 0, 0},          	// black
 
-	{0.25, 0.25, 0.25}, // dark gray
-	{0.5, 0.5, 0.5},    // light gray
-	{0.75, 0.75, 0.75}  // very-light gray
+	{0.25, 0.25, 0.25}, 	// dark gray
+	{0.5, 0.5, 0.5},    	// light gray
+	{0.75, 0.75, 0.75}  	// very-light gray
 };
 
 struct cell {
