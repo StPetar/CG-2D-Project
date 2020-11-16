@@ -33,26 +33,26 @@ enum Color {
 static const struct {
 	float r, g, b;
 } colors[] = {
-	{1, 0, 0},     // red
-	{0.5f, 0, 0},  // dark red
+	{1, 0, 0},			// red
+	{0.5f, 0, 0},		// dark red
 
-	{0, 0, 1},     // blue
-	{0, 0, 0.5f},  // dark blue
+	{0, 0, 1},			// blue
+	{0, 0, 0.5f},		// dark blue
 
-	{0, 0.5f, 0},  // dark green
+	{0, 0.5f, 0},		// dark green
 
-	{0, 1, 1},        // cyan
-	{0, 0.5f, 0.5f},  // dark  cyan
+	{0, 1, 1},			// cyan
+	{0, 0.5f, 0.5f},	// dark  cyan
 
-	{1, 1, 0},        // yellow
-	{0.5f, 0.5f, 0},  // dark yellow
+	{1, 1, 0},			// yellow
+	{0.5f, 0.5f, 0},	// dark yellow
 
-	{1, 1, 1},  // White
+	{1, 1, 1},			// White
+	{0, 0, 0},          // black
 
-	{0, 0, 0},           // black
-	{0.25, 0.25, 0.25},  // dark gray
-	{0.5, 0.5, 0.5},     // light gray
-	{0.75, 0.75, 0.75},  // very-light gray
+	{0.25, 0.25, 0.25}, // dark gray
+	{0.5, 0.5, 0.5},    // light gray
+	{0.75, 0.75, 0.75}  // very-light gray
 };
 
 struct cell {
@@ -67,7 +67,7 @@ int width;
 int height;
 int num_opened;
 
-// random int between min and max - found on StackOverflow
+// Random int between min and max
 int rand_int(int min, int max) {
 	static std::default_random_engine re{ std::random_device{}() };
 	using Dist = std::uniform_int_distribution<int>;
@@ -87,7 +87,7 @@ void drawRect(int x, int y, float width, float height, const Color& color = DARK
 	}
 	glEnd();
 }
-// Found on StackOverflow and adapted
+
 void drawCircle(int cx, int cy, float radius, const Color& color = LIGHTGRAY, bool outline = true) {
 	glColor3f(colors[color].r, colors[color].g, colors[color].b);
 	glBegin(outline ? GL_LINE_LOOP : GL_TRIANGLE_FAN);
@@ -218,17 +218,16 @@ void drawNum(int x, int y, int value) {
 		glColor3f(colors[DARKCYAN].r, colors[DARKCYAN].g, colors[DARKCYAN].b);
 		break;
 	}
-	// Rough center of cell
+	// Roughly center the number inside the cell
 	glRasterPos2i(x * TILE_SIZE + PADDING + 4, y * TILE_SIZE + PADDING + 3);
 	// Using Helvetica font with size 18
 	glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, '0' + value);
 }
 
-void drawFrame(float x, float y, float width, float height,
-	bool border = true) {
+void drawFrame(float x, float y, float width, float height, bool border = true) {
 	glColor3f(colors[WHITE].r, colors[WHITE].g, colors[WHITE].b);
 
-	// Left and top side - white frame
+	// Left and top side - white frame border
 	glBegin(GL_LINE_STRIP);
 	{
 		glVertex2i(x, y);
@@ -242,7 +241,7 @@ void drawFrame(float x, float y, float width, float height,
 
 	glColor3f(colors[LIGHTGRAY].r, colors[LIGHTGRAY].g, colors[LIGHTGRAY].b);
 
-	// Right and bottom side - gray frame
+	// Right and bottom side - gray frame border
 	glBegin(GL_LINE_STRIP);
 	{
 		glVertex2f(x + width - 2, y + height - 2);
@@ -279,6 +278,7 @@ void drawFrame(float x, float y, float width, float height,
 	glEnd();
 }
 
+// Upper (Emoji) frame
 void drawUpperFrame(int x = 0, int y = 0) {
 	static const float frame_width = width;
 	static const float frame_height = 2 * MARGIN;
@@ -287,6 +287,7 @@ void drawUpperFrame(int x = 0, int y = 0) {
 	drawFrame(0, offset, frame_width, frame_height);
 }
 
+// Main board frame
 void drawLowerFrame(int x = 0, int y = 0) {
 	static const float lower_frame_size = width;
 	drawFrame(0, 0, lower_frame_size, lower_frame_size);
@@ -345,7 +346,7 @@ bool isMine(int x, int y) {
 	return false;
 }
 
-// Calculate mines around given cell
+// Calculate number of mines around given cell
 int calcMine(int x, int y) {
 	return isMine(x - 1, y - 1)
 		+ isMine(x + 1, y - 1)
@@ -547,8 +548,10 @@ int main(int argc, char** argv) {
 	height = BOARD_SIZE * TILE_SIZE + 2 * PADDING + 2 * MARGIN;
 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
+	// Double buffered, RGB mode, multisampling/anti-aliasing enabled
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_MULTISAMPLE);
 	glutInitWindowSize(width, height);
+	// Center Window to screen
 	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - width) / 2,
 		(glutGet(GLUT_SCREEN_HEIGHT) - height) / 2);
 	glutCreateWindow("Minesweeper");
